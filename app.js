@@ -14,8 +14,12 @@ const _ = require("lodash");
 
 
 
+<<<<<<< HEAD
 mongoose.connect("mongodb+srv://amigo_blog:Test123@cluster0.dbkp6.mongodb.net/servicesDB", {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
+=======
+Sndkslsksl
+>>>>>>> 707be78e85d89c4d5f3446e5b5bb920a7cb1ac7d
 
 const itemSchema = {
   name : String,
