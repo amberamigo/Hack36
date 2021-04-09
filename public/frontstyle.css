@@ -1,0 +1,210 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box; 
+	font-family: 'Poppins', sans-serif;
+}
+
+header{
+	min-height: 100vh;
+	width: 100%;
+	background-image: linear-gradient(rgba(0,0,0,0.7),rgba(0, 0, 0, 0.7)),url('/images/cvimages2.jpg');
+	background-position: center;
+	background-size: cover;
+	position: relative;
+}
+nav{
+	display: flex;
+	width: 100%;
+	height: 15vh;
+	color: white;
+	justify-content: space-between;
+	align-items: center;
+	background: rgba(0,0,0,0.2);
+}
+nav .logo{
+	width: 25%;
+	text-align: center;
+}
+nav .navlink{
+	flex: 1;
+	text-align: right;
+}
+nav .navlink ul li{
+	list-style: none;
+	display: inline-block;
+	padding: 8px 15px;
+	position: relative;
+	margin-right: 5px;
+}
+nav .navlink ul li a{
+	color: white;
+	text-decoration: none;
+	font-size: 20px;
+}
+nav .navlink ul li::after{
+	content: '';
+	width: 0%;
+	height: 2px;
+	background: red;
+	display: block;
+	margin: auto;
+}
+nav .navlink ul li:hover::after{
+	width: 100%;
+	transition: 0.5s;
+}
+
+main{
+	height: 85vh;
+	width: 100%;
+	color: white;
+	/* position: absolute; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+main .texxt h1{
+	font-size: 50px;
+	text-shadow: 1px 1px 1px black;
+}
+main .texxt p{
+	margin: 10px 0 40px;
+	font-size: 18px;
+	text-shadow: 1px 1px 1px black;
+	color: white;
+}
+
+main .texxt a{
+	padding: 12px 30px;
+	border-radius: 4px;
+	outline: none;
+	font-size: 15px;
+	text-decoration: none;
+	letter-spacing: 1px;
+	font-weight: 500;
+}
+
+main .texxt .btn-one{
+	background: white;
+	color: black;
+	transition: 0.5s ease;
+}
+main .texxt .btn-two{
+	background: red;
+	color: white;
+	transition: 0.5s ease;
+}
+
+main .texxt .btn-one:hover{
+	background: red;
+	color: white;
+}
+
+main .texxt .btn-two:hover{
+	background: white;
+	color: black;
+}
+
+nav .fa{
+	display: none;
+}
+
+@media(max-width: 700px){
+	main .texxt h1{
+	font-size: 20px;
+}	
+main .texxt p{
+	
+	font-size: 12px;
+}
+nav .navlink ul li{
+	display: block;
+}
+nav .navlink{
+	position: absolute;
+	background: red;
+	height: 100vh;
+	width: 200px;
+	top: 0;
+	right: -200px;
+	/* display: flex; */
+	text-align: left;
+	z-index: 2;
+	transition: 1s;
+}
+nav .fa{
+	display: block;
+	color:  #fff;
+	margin: 10px;
+	font-size: 22px;
+	cursor: pointer;
+}
+nav .navlink ul{
+	padding: 30px;
+}
+.about .row{
+	flex-direction: column;
+}
+}
+
+.about{
+	width: 80%;
+	margin: auto;
+	text-align: center;
+	padding-top: 100px;
+}
+
+.about h1{
+	font-size: 30px;
+	font-weight: 600;
+}
+
+.about p{
+	color: #777;
+	font-size:  14px;
+	font-weight: 300;
+	padding:  10px;
+}
+
+.about .row{
+	margin-top: 5%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.about .column{
+	flex-basis: 31%;
+	background: lightpink;
+	border-radius: 10px;
+	margin-bottom: 5%;
+	padding: 20px 12px;
+	box-sizing: border-box;
+}
+
+.about .column:hover{
+	box-shadow: 1px 1px 20px 1px rgba(0,0,0,0.3);
+}
+
+footer{
+	width: 100%;
+	text-align: center;
+	padding: 30px 0;
+	background: lightgray;
+}
+footer h4{
+	margin-bottom: 10px;
+	margin-top: 20px;
+	font-weight: 600;
+}
+footer p{
+	margin-bottom: 10px;
+}
+footer .icons .fa{
+	margin: 0 13px;
+	cursor: pointer;
+	color: #f44336;
+	padding:  18px 0;
+}
