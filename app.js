@@ -13,9 +13,9 @@ const app = express();
 const _ = require("lodash");
 
 
-mongoose.connect("mongodb://localhost:27017/hack36DB", {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.set("useCreateIndex", true);
 
+mongoose.connect("mongodb+srv://amigo_blog:Test123@cluster0.dbkp6.mongodb.net/servicesDB", {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.set("useCreateIndex", true);
 
 const itemSchema = {
   name : String,
@@ -92,13 +92,19 @@ passport.use(new GoogleStrategy({
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
 const CartItem = new mongoose.model("CartItem", cartSchema);
 
+const homeStartingContent = "My Cart";
+const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
+const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
+
+
+
 
 
 app.get("/", function(req, res){
    if(req.isAuthenticated()){
       CartItem.find({userId : req.user.username}, function(err, posts){
          res.render("home", {
- 
+            startingContent: homeStartingContent,
             posts: posts
        });
          // console.log(req.user.username);
@@ -109,9 +115,6 @@ app.get("/", function(req, res){
     }
 
 });
-
-
-
 ////////////////authentication//////////////////////
 
 
@@ -139,12 +142,22 @@ app.get("/home", function(req, res){
 });
 
 
+//////////////////////////////////////////removing a post////////////////////////////////////////////////
+app.get("/delete/:postId", function(req, res){
+    const post = req.params.postId;
+      CartItem.findOneAndDelete({_id : post, userId : req.user.username}, function(err){
+      if (!err) {
+        console.log("Successfully deleted checked item.");
+        res.redirect("/");
+      }
+    });
+});
+
+
 app.get("/logout", function(req, res){
   req.logout();
   res.redirect("/");
 });
-
-
 
 app.post("/register", function(req, res){
      User.register({username: req.body.username}, req.body.password, function(err, user){
@@ -176,6 +189,62 @@ app.post("/login", function(req, res){
   });
 });
 
+
+///////////////------------------------------//////////////
+
+
+
+
+app.get("/about", function(req, res){
+  res.render("about", {aboutContent: aboutContent});
+});
+
+app.get("/contact", function(req, res){
+  res.render("contact", {contactContent: contactContent});
+});
+
+app.get("/compose", function(req, res){
+  res.render("compose");
+});
+
+app.post("/compose", function(req, res){
+  const availableItem = new AvailableItem({
+    name: req.body.postTitle,
+    price: req.body.postBody,
+    img : req.body.postImage
+  });
+
+   availableItem.save();
+   res.redirect("/front-page");
+ });
+
+
+app.get("/posts/:postId", function(req, res){
+  const requestedPostId = req.params.postId;
+
+  AvailableItem.findOne({_id : requestedPostId}, function(err, post){
+     res.render("post", {
+        title : post.title,
+        content : post.content
+     });
+  });
+  // posts.forEach(function(post){
+  //   const storedTitle = _.lowerCase(post.title);
+
+  //   if (storedTitle === requestedTitle) {
+  //     res.render("post", {
+  //       title: post.title,
+  //       content: post.content
+  //     });
+  //   }
+  // });
+
+});
+
+
+app.get("/success", function(req, res){
+   res.send("success");
+});
 /////////////////////////////demo front page ////////////////////////////////////////
 
 app.get("/front-page", function(req, res){
@@ -187,10 +256,7 @@ app.get("/front-page", function(req, res){
 });
 
 
-
-
-
-///////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
+///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
 app.post("/add-to-cart/:postId", function(req, res) {
    const requestedPostId = req.params.postId;
 
@@ -206,11 +272,19 @@ app.post("/add-to-cart/:postId", function(req, res) {
     img : item.img
   });
      // console.log(req.username);
+
    newItem.save();
   });
 }
 });
+  
+  //  popup.alert({
+  //   content: 'added to cart'
+  // });
+    // toast("A new game has been added to your cart");
+
    res.redirect("/front-page");
+  
 });
 
 
