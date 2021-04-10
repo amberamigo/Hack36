@@ -10,6 +10,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const app = express();
+const nodeMailer = require('nodemailer');
 const _ = require("lodash");
 
 
@@ -21,7 +22,8 @@ Sndkslsksl
 const itemSchema = {
   name : String,
   price : Number,
-  img : String
+  img : String,
+  availableAt : Date
 };
 
 
@@ -31,6 +33,15 @@ const cartSchema = {
   name : String,
   price : Number,
   img : String
+};
+
+
+const serviceRequestSchema = {
+  userId : String,
+  productId : String,
+  timeAlloted : Date,
+  isCompleted : Boolean,
+  passcode : Number
 };
 
 
@@ -92,7 +103,7 @@ passport.use(new GoogleStrategy({
 
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
 const CartItem = new mongoose.model("CartItem", cartSchema);
-
+const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
 
 
 app.get("/", function(req, res){
@@ -199,7 +210,7 @@ app.post("/add-to-cart/:postId", function(req, res) {
   if(!availableItems.length)
   {
   AvailableItem.findOne({_id : requestedPostId}, function(err, item){
-     const newItem = new CartItem({
+    const newItem = new CartItem({
     userId : req.user.username,
     productId : requestedPostId,
     name: item.name,
@@ -213,6 +224,79 @@ app.post("/add-to-cart/:postId", function(req, res) {
 });
    res.redirect("/front-page");
 });
+
+
+
+
+/* Checking out cart by sending post request to "/checkOutCart" */
+app.post("/checkOutCart", (request, response)=>{
+
+    CartItem.find({userId : req.user.username}, (err, data)=>{
+      if(err==null && data.length>0){
+        data.forEach(element => {
+          ServiceRequestItem.findOne({userId : element.userId, productId : element.productId}, (err,data)=>{
+            if(err==null && data==null){
+              var randomPassCode = Math.floor(Math.random()*9000)+1000;
+              
+              const serviceRequest = new ServiceRequestItem({
+                userId : element.userId,
+                productId : element.productId,
+                isCompleted : false,
+                passcode : randomPassCode,
+                timeAlloted : element.availableAt
+              });
+              serviceRequest.save();
+
+              var serviceManEmail = '';
+              var serviceManAvailableAt = new Date().getTime();
+
+              AvailableItem.findOne({productId : element.productId}, (err, productData)=>{
+                if(err==null && productData!=null){
+                  serviceManEmail = productData.email,
+                  serviceManAvailableAt = productData.availableAt
+                }
+              });
+
+              var transporter = nodeMailer.createTransport({
+                service : 'gmail',
+                auth : {
+                  user : '',
+                  pass : ''
+                }
+              });
+
+              var mailToUser = {
+                from : '',
+                to : element.email,
+                subject : 'Service Booking Confirmation',
+                text : `Service Booked 
+                        Time : `+serviceManAvailableAt+`
+                        Passcode :`+randomPassCode
+              }
+
+              var mailToServiceMan = {
+                from : '',
+                to : serviceManEmail,
+                subject : 'New Service Booking',
+                text : `Booking At : `+serviceManAvailableAt 
+              }
+
+              transporter.sendMail(mailToServiceMan, (err,info)=>{
+                
+              });
+
+              transporter.sendMail(mailToUser, (err,info)=>{
+
+              });
+
+            }
+          });
+        });
+      }
+    });
+
+  });
+
 
 
 
