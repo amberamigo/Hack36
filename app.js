@@ -21,28 +21,12 @@ mongoose.set("useCreateIndex", true);
 // mongoose.set("debug",true);
 
 
-<<<<<<< HEAD
-// <<<<<<< HEAD
-// Sndkslsksl
-// =======
-// >>>>>>> 460f42bd7b394e5348c8036dad1a626e43aba046
-=======
->>>>>>> d4649c8bc179e5c80341981788cccbdab6842228
-
 const itemSchema = {
   name : String,
   price : Number,
   img : String,
-<<<<<<< HEAD
-  mail : String,
-  availableAt : String,
-
-  availableAt : Date
-// >>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
-=======
   email : String,
   availableAt : Date
->>>>>>> d4649c8bc179e5c80341981788cccbdab6842228
 };
 
 
@@ -152,10 +136,7 @@ passport.use(new GoogleStrategy({
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
 
 const CartItem = new mongoose.model("CartItem", cartSchema);
-<<<<<<< HEAD
-=======
 
->>>>>>> d4649c8bc179e5c80341981788cccbdab6842228
 const ServiceItem = new mongoose.model("ServiceItem", serviceSchema);
 
 
@@ -164,16 +145,12 @@ const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pelle
 const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 
-<<<<<<< HEAD
-const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
-=======
-
 
 /////////////////////////////// front page ///////////////////////
 
 const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
 
->>>>>>> d4649c8bc179e5c80341981788cccbdab6842228
+
 
 
 // app.get("/", function(req, res){
@@ -415,10 +392,7 @@ app.get("/success", function(req, res){
 ///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
 app.post("/add-to-cart/:postId", function(req, res) {
    const requestedPostId = req.params.postId;
-<<<<<<< HEAD
-=======
 
->>>>>>> d4649c8bc179e5c80341981788cccbdab6842228
      if(req.isAuthenticated()){
          CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
            if(!availableItems.length)
@@ -443,33 +417,10 @@ app.post("/add-to-cart/:postId", function(req, res) {
   else{
     res.redirect("/login");
   }
-<<<<<<< HEAD
-
-  CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
-  if(!availableItems.length)
-  {
-  AvailableItem.findOne({_id : requestedPostId}, function(err, item){
-    const newItem = new CartItem({
-    userId : req.user.username,
-    productId : requestedPostId,
-    name: item.name,
-    price: item.price,
-    img : item.img
-  });
-     // console.log(req.username);
-   newItem.save();
-  });
-}
-});
-   res.redirect("/front-page");
-=======
->>>>>>> d4649c8bc179e5c80341981788cccbdab6842228
 });
 
 
 
-
-/* Checking out cart by sending post request to "/checkOutCart" */
 
 
 // app.get("/checkOutCart", (req, res)=>{
