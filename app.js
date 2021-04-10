@@ -26,12 +26,11 @@ const itemSchema = {
   name : String,
   price : Number,
   img : String,
-<<<<<<< HEAD
-  mail : String,
+  email : String,
   availableAt : String
-=======
-  availableAt : Date
->>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
+// =======
+//   availableAt : Date
+// >>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
 };
 
 
@@ -41,7 +40,7 @@ const cartSchema = {
   name : String,
   price : Number,
   img : String,
-  mail : String,
+  email : String,
   availableAt : Number
 };
 
@@ -54,7 +53,7 @@ const serviceSchema = {
   img : String,
   mail : String,
   availableAt : Number,
-  isComppleted : Boolean
+  isCompleted : Boolean
 };
 
 
@@ -125,7 +124,7 @@ passport.use(new GoogleStrategy({
 
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
 const CartItem = new mongoose.model("CartItem", cartSchema);
-<<<<<<< HEAD
+
 const ServiceItem = new mongoose.model("ServiceItem", serviceSchema);
 
 
@@ -135,9 +134,9 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 
 
-=======
+// =======
 const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
->>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
+{/*>>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2*/}
 
 
 app.get("/", function(req, res){
@@ -368,7 +367,7 @@ app.get("/front", function(req, res){
 ///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
 app.post("/add-to-cart/:postId", function(req, res) {
    const requestedPostId = req.params.postId;
-<<<<<<< HEAD
+{/*<<<<<<< HEAD*/}
      if(req.isAuthenticated()){
          CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
            if(!availableItems.length)
@@ -393,33 +392,13 @@ app.post("/add-to-cart/:postId", function(req, res) {
   else{
     res.redirect("/login");
   }
-=======
-
-  CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
-  if(!availableItems.length)
-  {
-  AvailableItem.findOne({_id : requestedPostId}, function(err, item){
-    const newItem = new CartItem({
-    userId : req.user.username,
-    productId : requestedPostId,
-    name: item.name,
-    price: item.price,
-    img : item.img
-  });
-     // console.log(req.username);
-   newItem.save();
-  });
-}
-});
-   res.redirect("/front-page");
->>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
 });
 
 
 
 
 /* Checking out cart by sending post request to "/checkOutCart" */
-app.post("/checkOutCart", (request, response)=>{
+app.get("/checkOutCart", (req, res)=>{
 
     CartItem.find({userId : req.user.username}, (err, data)=>{
       if(err==null && data.length>0){
@@ -436,6 +415,7 @@ app.post("/checkOutCart", (request, response)=>{
                 timeAlloted : element.availableAt
               });
               serviceRequest.save();
+              // CartItem.findOneAndDelete({})
 
               var serviceManEmail = '';
               var serviceManAvailableAt = new Date().getTime();
@@ -450,19 +430,21 @@ app.post("/checkOutCart", (request, response)=>{
               var transporter = nodeMailer.createTransport({
                 service : 'gmail',
                 auth : {
-                  user : '',
+                  user : 'himanshu.singh18599@gmail.com',
                   pass : ''
                 }
               });
 
               var mailToUser = {
-                from : '',
-                to : element.email,
+                from : 'himanshu.singh18599@gmail.com',
+                to : "himanshu180599@gmail.com",
                 subject : 'Service Booking Confirmation',
-                text : `Service Booked 
-                        Time : `+serviceManAvailableAt+`
-                        Passcode :`+randomPassCode
+                // text : `Service Booked 
+                //         Time : `+serviceManAvailableAt+`
+                //         Passcode :`+randomPassCode
+                text : "hello"
               }
+
 
               var mailToServiceMan = {
                 from : '',
@@ -472,11 +454,16 @@ app.post("/checkOutCart", (request, response)=>{
               }
 
               transporter.sendMail(mailToServiceMan, (err,info)=>{
-                
+                console.log("mail sent to serviceman");
+                console.log(err);
+                console.log(info);
+
               });
 
               transporter.sendMail(mailToUser, (err,info)=>{
-
+                  console.log("mail sent to user");
+                  console.log(err);
+                console.log(info);
               });
 
             }
@@ -484,6 +471,16 @@ app.post("/checkOutCart", (request, response)=>{
         });
       }
     });
+
+  // CartItem.deleteMany({ userId : req.user.username}, function (err) {
+  //               if(err) 
+  //                 console.log(err);
+  //               else
+  //                 console.log("Successful deletion");
+  //              });
+    
+
+    res.redirect("/front-page");
 
   });
 
