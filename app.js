@@ -16,7 +16,7 @@ const _ = require("lodash");
 mongoose.connect("mongodb://localhost:27017/hack36DB", {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
 
-Sndkslsksl
+// Sndkslsksl
 
 const itemSchema = {
   name : String,
