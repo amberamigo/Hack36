@@ -21,10 +21,6 @@ mongoose.set("useCreateIndex", true);
 // mongoose.set("debug",true);
 
 
-<<<<<<< HEAD
-// Sndkslsksl
-=======
->>>>>>> 460f42bd7b394e5348c8036dad1a626e43aba046
 
 const itemSchema = {
   name : String,
@@ -143,10 +139,29 @@ const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSc
 {/*>>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2*/}
 
 
+
+
+/////////////////////////////// front page ///////////////////////
+
+
 app.get("/", function(req, res){
    if(req.isAuthenticated()){
       CartItem.find({userId : req.user.username}, function(err, posts){
-         res.render("home", {
+         res.render("front");
+         // console.log(req.user.username);
+    });
+    }else {
+      res.redirect("/register");
+    }
+
+});
+
+
+
+app.get("/cart", function(req, res){
+   if(req.isAuthenticated()){
+      CartItem.find({userId : req.user.username}, function(err, posts){
+         res.render("cart", {
             startingContent: homeStartingContent,
             posts: posts
        });
@@ -158,6 +173,10 @@ app.get("/", function(req, res){
     }
 
 });
+
+
+
+
 ////////////////authentication//////////////////////
 
 
@@ -183,6 +202,8 @@ app.get("/register", function(req, res){
 app.get("/home", function(req, res){
     res.redirect("/");
 });
+
+
 
 
 //////////////////////////////////////////removing a post////////////////////////////////////////////////
@@ -239,11 +260,15 @@ app.post("/login", function(req, res){
 
 
 app.get("/about", function(req, res){
-  res.render("about", {aboutContent: aboutContent});
+  res.render("about");
 });
 
 app.get("/contact", function(req, res){
-  res.render("contact", {contactContent: contactContent});
+  res.render("contact");
+});
+
+app.get("/services", function(req, res){
+  res.render("services");
 });
 
 app.get("/compose", function(req, res){
