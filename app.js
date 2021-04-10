@@ -10,6 +10,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const app = express();
+const nodeMailer = require('nodemailer');
 const _ = require("lodash");
 
 
@@ -25,8 +26,12 @@ const itemSchema = {
   name : String,
   price : Number,
   img : String,
+<<<<<<< HEAD
   mail : String,
   availableAt : String
+=======
+  availableAt : Date
+>>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
 };
 
 
@@ -50,6 +55,15 @@ const serviceSchema = {
   mail : String,
   availableAt : Number,
   isComppleted : Boolean
+};
+
+
+const serviceRequestSchema = {
+  userId : String,
+  productId : String,
+  timeAlloted : Date,
+  isCompleted : Boolean,
+  passcode : Number
 };
 
 
@@ -111,6 +125,7 @@ passport.use(new GoogleStrategy({
 
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
 const CartItem = new mongoose.model("CartItem", cartSchema);
+<<<<<<< HEAD
 const ServiceItem = new mongoose.model("ServiceItem", serviceSchema);
 
 
@@ -120,6 +135,9 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 
 
+=======
+const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
+>>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
 
 
 app.get("/", function(req, res){
@@ -350,6 +368,7 @@ app.get("/front", function(req, res){
 ///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
 app.post("/add-to-cart/:postId", function(req, res) {
    const requestedPostId = req.params.postId;
+<<<<<<< HEAD
      if(req.isAuthenticated()){
          CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
            if(!availableItems.length)
@@ -374,7 +393,100 @@ app.post("/add-to-cart/:postId", function(req, res) {
   else{
     res.redirect("/login");
   }
+=======
+
+  CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
+  if(!availableItems.length)
+  {
+  AvailableItem.findOne({_id : requestedPostId}, function(err, item){
+    const newItem = new CartItem({
+    userId : req.user.username,
+    productId : requestedPostId,
+    name: item.name,
+    price: item.price,
+    img : item.img
+  });
+     // console.log(req.username);
+   newItem.save();
+  });
+}
 });
+   res.redirect("/front-page");
+>>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
+});
+
+
+
+
+/* Checking out cart by sending post request to "/checkOutCart" */
+app.post("/checkOutCart", (request, response)=>{
+
+    CartItem.find({userId : req.user.username}, (err, data)=>{
+      if(err==null && data.length>0){
+        data.forEach(element => {
+          ServiceRequestItem.findOne({userId : element.userId, productId : element.productId}, (err,data)=>{
+            if(err==null && data==null){
+              var randomPassCode = Math.floor(Math.random()*9000)+1000;
+              
+              const serviceRequest = new ServiceRequestItem({
+                userId : element.userId,
+                productId : element.productId,
+                isCompleted : false,
+                passcode : randomPassCode,
+                timeAlloted : element.availableAt
+              });
+              serviceRequest.save();
+
+              var serviceManEmail = '';
+              var serviceManAvailableAt = new Date().getTime();
+
+              AvailableItem.findOne({productId : element.productId}, (err, productData)=>{
+                if(err==null && productData!=null){
+                  serviceManEmail = productData.email,
+                  serviceManAvailableAt = productData.availableAt
+                }
+              });
+
+              var transporter = nodeMailer.createTransport({
+                service : 'gmail',
+                auth : {
+                  user : '',
+                  pass : ''
+                }
+              });
+
+              var mailToUser = {
+                from : '',
+                to : element.email,
+                subject : 'Service Booking Confirmation',
+                text : `Service Booked 
+                        Time : `+serviceManAvailableAt+`
+                        Passcode :`+randomPassCode
+              }
+
+              var mailToServiceMan = {
+                from : '',
+                to : serviceManEmail,
+                subject : 'New Service Booking',
+                text : `Booking At : `+serviceManAvailableAt 
+              }
+
+              transporter.sendMail(mailToServiceMan, (err,info)=>{
+                
+              });
+
+              transporter.sendMail(mailToUser, (err,info)=>{
+
+              });
+
+            }
+          });
+        });
+      }
+    });
+
+  });
+
 
 
 
