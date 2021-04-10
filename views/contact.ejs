@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<title>HOME</title>
+	<title>CONTACTUS</title>
 	<link rel="stylesheet" href="/frontstyle.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;1,100&display=swap" rel="stylesheet">
@@ -11,7 +11,7 @@
 </head>
 <body>
 	<!-- /header -->
-	<header>
+	<section class="sub-header">
 		<nav>
 			<div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">HACK 36</h1></div>
 			<div class="navlink" id="navlink">
@@ -25,36 +25,49 @@
 			</div>
 			<i class="fa fa-bars" onclick="showmenu()"></i>
 		</nav>
+		<h2>CONTACT US</h2>
+	</section>
 
-		<main>
-			<section class="texxt">
-				<h1>Welcome to Our Website</h1>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-				<a href="#" class="btn-one">LOGIN</a>
-				<a href="#" class="btn-two">SIGNUP</a>
-			</section>
-		</main>
-	</header>
-
-<section class="about">
-	<h1>Something about this website</h1>
-	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-	<div class="row">
-		<div class="column">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
-
-		<div class="column">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
-
-		<div class="column">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
-	</div>
- 
+<section class="location">
+	<iframe src="https://www.google.com/maps/d/embed?mid=1IEVwjHNKZcYI5LKHZfRSFXEKyzg" width="640" height="480"></iframe>
 </section>
 
+<section class="contact-us">
+	<div class="row">
+		<div class="contact-col">
+			<div>
+				<i class="fa fa-home"></i>
+				<span>
+					<h5>ABC Apartment,XYZ Road</h5>
+					<p>GURUGRAM, Delhi</p>
+				</span>
+			</div>
+			<div>
+				<i class="fa fa-phone"></i>
+				<span>
+					<h5>+1 027628</h5>
+					<p>Sunday off</p>
+				</span>
+			</div>
+			<div>
+				<i class="fa fa-envelope-o"></i>
+				<span>
+					<h5>xyz@gmail.com</h5>
+					<p>Email Us</p>
+				</span>
+			</div>
+		</div>
+		<div class="contact-col">
+				<form action="form.php" method="post">
+					<input type="text" name="name" placeholder="Enter Your Name" required>
+					<input type="email" name="email" placeholder="Enter Your Email" required>
+					<input type="text" name="subject" placeholder="Enter Your Subject" required>
+					<textarea rows="6" name="message" placeholder="Message" required></textarea>
+					<button type="submit" class="btn-one red-btn">Send Message </button>
+				</form>
+		</div>
+	</div>
+</section>
 
 <footer>
 	<h4>ABOUT US</h4>
