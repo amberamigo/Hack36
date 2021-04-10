@@ -21,6 +21,10 @@ mongoose.set("useCreateIndex", true);
 // mongoose.set("debug",true);
 
 
+<<<<<<< HEAD
+// Sndkslsksl
+=======
+>>>>>>> 460f42bd7b394e5348c8036dad1a626e43aba046
 
 const itemSchema = {
   name : String,
