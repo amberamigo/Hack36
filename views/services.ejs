@@ -29,110 +29,24 @@
 	</section>
 
 <div class="cards">
+	<%  availableItems.forEach(function(item){ %>
+	<div class="card">
+		<div class="image">
+			<img src= <%= item.img %>>
+		</div>
+		<div class="title">
+			<h1><%=item.name%></h1>
+		</div>
+		<div class="des">
+			<p>&#8377 <%=item.price %></p>
+		<form action="/add-to-cart/<%=item._id%>" method="post">
+              <button type="submit" name="button">Add to cart</button>
+        </form>
+		</div>
+	</div>
+	 <% }) %>
+
 	
-	<div class="card">
-		<div class="image">
-			<img src="images/img1.jpeg">
-		</div>
-		<div class="title">
-			<h1>CARPENTER</h1>
-		</div>
-		<div class="des">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<button type="">ADD TO CART</button>
-		</div>
-	</div>
-
-	<div class="card">
-		<div class="image">
-			<img src="images/img2.jpeg">
-		</div>
-		<div class="title">
-			<h1>PLUMBER</h1>
-		</div>
-		<div class="des">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<button type="">ADD TO CART</button>
-		</div>
-	</div>
-
-	<div class="card">
-		<div class="image">
-			<img src="images/img3.jpeg">
-		</div>
-		<div class="title">
-			<h1>AC SERVICE</h1>
-		</div>
-		<div class="des">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<button type="">ADD TO CART</button>
-		</div>
-	</div>
-
-	<div class="card">
-		<div class="image">
-			<img src="images/img4.jpeg">
-		</div>
-		<div class="title">
-			<h1>SALON</h1>
-		</div>
-		<div class="des">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<button type="">ADD TO CART</button>
-		</div>
-	</div>
-
-	<div class="card">
-		<div class="image">
-			<img src="images/img5.jpeg">
-		</div>
-		<div class="title">
-			<h1>PAINTER</h1>
-		</div>
-		<div class="des">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<button type="">ADD TO CART</button>
-		</div>
-	</div>
-
-	<div class="card">
-		<div class="image">
-			<img src="images/img6.jpeg">
-		</div>
-		<div class="title">
-			<h1>ELECTRICIAN</h1>
-		</div>
-		<div class="des">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<button type="">ADD TO CART</button>
-		</div>
-	</div>
-
-	<div class="card">
-		<div class="image">
-			<img src="images/img7.jpg">
-		</div>
-		<div class="title">
-			<h1>CLEANER</h1>
-		</div>
-		<div class="des">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<button type="">ADD TO CART</button>
-		</div>
-	</div>
-
-	<div class="card">
-		<div class="image">
-			<img src="images/img8.jpeg">
-		</div>
-		<div class="title">
-			<h1>HOME MASSAGE</h1>
-		</div>
-		<div class="des">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<button type="">ADD TO CART</button>
-		</div>
-	</div>
 
 
 	

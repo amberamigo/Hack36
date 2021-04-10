@@ -1,26 +1,83 @@
- 
-<%- include("partials/header"); -%>
+
+
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>FACILITIES</title>
+  <link rel="stylesheet" href="/frontstyle.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;1,100&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <!-- /header -->
+  <section class="sub-header">
+    <nav>
+      <div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">HACK 36</h1></div>
+      <div class="navlink" id="navlink">
+        <i class="fa fa-times-circle" onclick="hidemenu()"></i>
+        <ul>
+          <li><a href="/">HOME</a></li>
+          <li><a href="/about">ABOUT</a></li>
+          <li><a href="/services">FACILITIES</a></li>
+          <li><a href="/contact">CONTACT US</a></li>
+        </ul>
+      </div>
+      <i class="fa fa-bars" onclick="showmenu()"></i>
+    </nav>
+    <h2>My Orders</h2>
+  </section>
+
+<div class="cards">
+   <%  userOrders.forEach(function(item){ %>
+   <% if(!item.isCompleted){ %>
+  <div class="card">
+    <div class="image">
+      <img src= <%= item.img %>>
+    </div>
+    <div class="title">
+      <h1><%=item.name%></h1>
+    </div>
+    <div class="des">
+      <p>&#8377 <%=item.price %></p>
+    </div>
+      <div class="des">Slot Booked : <%=item.availableAt%></div>
+  </div>
+ <% } %>
+   <% }) %>
+
+  
+
+
+  
+</div>
 
 
 
-  <%  userOrders.forEach(function(item){ %>
-            <div class="row border-top border-bottom">
-                <div class="row main align-items-center">
-                    <img width="150" height="150" src= <%= item.img %> >
-                 
-                    <div class="col">
-                    <br>
-                        <div class="row"><%=item.name%></div>
-                    </div>
-                    
-                    <div class="col">&#8377 <%=item.price %></div>
-                     <div class="row">Slot Booked : <%=item.availableAt%></div>
-                      <div class="row">isCompleted : <%=item.isCompleted%></div>
-                    <hr/>
-                </div>
-            </div>
-           <% }) %>
+<footer>
+  <h4>ABOUT US</h4>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+  <div class="icons">
+    <i class="fa fa-facebook"></i>
+    <i class="fa fa-twitter"></i>
+    <i class="fa fa-instagram"></i>
+    <i class="fa fa-linkedin"></i>
+  </div>
+</footer>
 
+<script>
+var navlink=document.getElementById("navlink");
 
+function showmenu(){
+  navlink.style.right="0";
+} 
 
-  <%- include("partials/footer"); -%>
+function hidemenu(){
+  navlink.style.right="-200px";
+}
+</script>
+
+</body>
+</html>

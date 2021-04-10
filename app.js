@@ -217,7 +217,7 @@ app.get("/home", function(req, res){
 //////////////////////////////////////////removing a post////////////////////////////////////////////////
 app.get("/delete/:postId", function(req, res){
     const post = req.params.postId;
-      CartItem.findOneAndDelete({_id : post, userId : req.user.username}, function(err){
+      CartItem.findOneAndDelete({_id : post, userId : req.user.username}, async function(err){
       if (!err) {
         console.log("Successfully deleted checked item.");
         res.redirect("/");
@@ -276,7 +276,11 @@ app.get("/contact", function(req, res){
 });
 
 app.get("/services", function(req, res){
-  res.render("services");
+  AvailableItem.find({}, function(err, availableItems){
+         res.render("services", {
+            availableItems: availableItems
+       });
+    });
 });
 
 app.get("/compose", function(req, res){
@@ -297,33 +301,12 @@ app.post("/compose", function(req, res){
    res.redirect("/front-page");
  });
 
-app.get("/posts/:postId", function(req, res){
-  const requestedPostId = req.params.postId;
-
-  AvailableItem.findOne({_id : requestedPostId}, function(err, post){
-     res.render("post", {
-        title : post.title,
-        content : post.content
-     });
-  });
-  // posts.forEach(function(post){
-  //   const storedTitle = _.lowerCase(post.title);
-
-  //   if (storedTitle === requestedTitle) {
-  //     res.render("post", {
-  //       title: post.title,
-  //       content: post.content
-  //     });
-  //   }
-  // });
-
-});
 
 
 ////////////////////////////////// services ordered ///////////////////////////////////////////
 app.get("/orders", function(req, res){
    if(req.isAuthenticated()){
-      ServiceRequestItem.find({userId : req.user.username}, function(err, serviceRequests){
+      ServiceItem.find({userId : req.user.username}, function(err, serviceRequests){
          res.render("orders", {
             userOrders : serviceRequests
        });
@@ -339,7 +322,7 @@ app.get("/orders", function(req, res){
 app.get("/success", function(req, res){
 
          CartItem.find({userId : req.user.username}, function(err, cartItems){
-          cartItems.forEach(function(item){
+          cartItems.forEach(async function(item){
 
          let slot = Math.max(item.availableAt, new Date());
 
@@ -356,7 +339,7 @@ app.get("/success", function(req, res){
                                availableAt : slot
                           });
 
-              newItem.save();
+              await newItem.save();
 
 
           AvailableItem.findOneAndUpdate({_id : item.productId},{availableAt : new Date(new Date().getTime()+3600000)},function (err, docs) {
@@ -410,7 +393,7 @@ app.post("/add-to-cart/:postId", function(req, res) {
          CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
            if(!availableItems.length)
            { 
-             AvailableItem.findOne({_id : requestedPostId}, function(err, item){
+             AvailableItem.findOne({_id : requestedPostId}, async function(err, item){
              const newItem = new CartItem({
                                           userId : req.user.username,
                                           productId : requestedPostId,
@@ -420,12 +403,12 @@ app.post("/add-to-cart/:postId", function(req, res) {
                                           mail : item.mail,
                                           availableAt : item.availableAt
                                           });
-            newItem.save();
+            await newItem.save();
            });
         }
     });
   
-  res.redirect("/front-page");
+  res.redirect("/services");
   }
   else{
     res.redirect("/login");
@@ -438,120 +421,120 @@ app.post("/add-to-cart/:postId", function(req, res) {
 /* Checking out cart by sending post request to "/checkOutCart" */
 
 
-app.get("/checkOutCart", (req, res)=>{
+// app.get("/checkOutCart", (req, res)=>{
 
-    CartItem.find({userId : req.user.username}, (err, data)=>{
+//     CartItem.find({userId : req.user.username}, (err, data)=>{
 
-      if(err==null && data.length>0){
+//       if(err==null && data.length>0){
         
-        data.forEach(element => {
+//         data.forEach(element => {
           
-          ServiceRequestItem.findOne({userId : element.userId, productId : element.productId}, (err,data)=>{
+//           ServiceRequestItem.findOne({userId : element.userId, productId : element.productId}, (err,data)=>{
             
-            if(err==null && data==null ){
+//             if(err==null && data==null ){
 
-              var serviceManEmail = '';
-              var serviceManAvailableAt = new Date().getTime();
+//               var serviceManEmail = '';
+//               var serviceManAvailableAt = new Date().getTime();
 
-              AvailableItem.findOne({productId : element.productId}, (err, productData)=>{
-                if(err==null && productData!=null){
+//               AvailableItem.findOne({productId : element.productId}, (err, productData)=>{
+//                 if(err==null && productData!=null){
                   
-                  serviceManEmail = productData.email;
-                  serviceManAvailableAt = productData.availableAt;
+//                   serviceManEmail = productData.email;
+//                   serviceManAvailableAt = productData.availableAt;
                   
-                  if(serviceManAvailableAt < new Date().getTime()){
-                    serviceManAvailableAt = new Date();
-                    AvailableItem.findOneAndUpdate({_id : productData.productId, }, {availableAt : new Date(new Date().getTime()+3600000)},(err,res)=>{
-                      if(err){
-                        console.log(err);
-                      }
-                    });
-                  }else{
+//                   if(serviceManAvailableAt < new Date().getTime()){
+//                     serviceManAvailableAt = new Date();
+//                     AvailableItem.findOneAndUpdate({_id : productData.productId, }, {availableAt : new Date(new Date().getTime()+3600000)},(err,res)=>{
+//                       if(err){
+//                         console.log(err);
+//                       }
+//                     });
+//                   }else{
     
-                  }
-                }
-              });
+//                   }
+//                 }
+//               });
               
-              var randomPassCode = Math.floor(Math.random()*9000)+1000;
+//               var randomPassCode = Math.floor(Math.random()*9000)+1000;
               
-              const serviceRequest = new ServiceRequestItem({
-                userId : element.userId,
-                productId : element.productId,
-                isCompleted : false,
-                passcode : randomPassCode,
-                timeAlloted : serviceManAvailableAt
-              });
-              serviceRequest.save();
-              // CartItem.findOneAndDelete({})
-              CartItem.findOneAndRemove({userId: element.userId, productId : element.productId}, function(err){console.log(err)});
+//               const serviceRequest = new ServiceRequestItem({
+//                 userId : element.userId,
+//                 productId : element.productId,
+//                 isCompleted : false,
+//                 passcode : randomPassCode,
+//                 timeAlloted : serviceManAvailableAt
+//               });
+//               serviceRequest.save();
+//               // CartItem.findOneAndDelete({})
+//               CartItem.findOneAndRemove({userId: element.userId, productId : element.productId}, function(err){console.log(err)});
 
-              var transporter = nodeMailer.createTransport({
-                service : 'gmail',
-                auth : {
-                  user : 'himanshu.singh18599@gmail.com',
-                  pass : ''
-                }
-              });
+//               var transporter = nodeMailer.createTransport({
+//                 service : 'gmail',
+//                 auth : {
+//                   user : 'himanshu.singh18599@gmail.com',
+//                   pass : ''
+//                 }
+//               });
 
-              var mailToUser = {
-                from : 'himanshu.singh18599@gmail.com',
-                to : "himanshu180599@gmail.com",
-                subject : 'Service Booking Confirmation',
+//               var mailToUser = {
+//                 from : 'himanshu.singh18599@gmail.com',
+//                 to : "himanshu180599@gmail.com",
+//                 subject : 'Service Booking Confirmation',
 
-                // text : `Service Booked 
-                //         Time : `+serviceManAvailableAt+`
-                //         Passcode :`+randomPassCode
+//                 // text : `Service Booked 
+//                 //         Time : `+serviceManAvailableAt+`
+//                 //         Passcode :`+randomPassCode
            
 
-                text : `Service Booked 
-                        Time : `+serviceManAvailableAt.toLocaleString()+`
-                        Passcode :`+randomPassCode
-              }
+//                 text : `Service Booked 
+//                         Time : `+serviceManAvailableAt.toLocaleString()+`
+//                         Passcode :`+randomPassCode
+//               }
 
 
-              var mailToServiceMan = {
-                from : '',
-                to : serviceManEmail,
-                subject : 'New Service Booking',
-                text : `Booking At : `+serviceManAvailableAt.toLocaleString() 
-              }
+//               var mailToServiceMan = {
+//                 from : '',
+//                 to : serviceManEmail,
+//                 subject : 'New Service Booking',
+//                 text : `Booking At : `+serviceManAvailableAt.toLocaleString() 
+//               }
 
-              transporter.sendMail(mailToServiceMan, (err,info)=>{
-                console.log("mail sent to serviceman");
-                console.log(err);
-                console.log(info);
+//               transporter.sendMail(mailToServiceMan, (err,info)=>{
+//                 console.log("mail sent to serviceman");
+//                 console.log(err);
+//                 console.log(info);
 
-              });
+//               });
 
-              transporter.sendMail(mailToUser, (err,info)=>{
-                  console.log("mail sent to user");
-                  console.log(err);
-                console.log(info);
-              });
+//               transporter.sendMail(mailToUser, (err,info)=>{
+//                   console.log("mail sent to user");
+//                   console.log(err);
+//                 console.log(info);
+//               });
 
-              CartItem.findOneAndDelete({_id : element._id}, (err, info)=>{
-                if(!err){
-                  console.log("One Cart Item Changed To Service Request");
-                }
-              });
+//               CartItem.findOneAndDelete({_id : element._id}, (err, info)=>{
+//                 if(!err){
+//                   console.log("One Cart Item Changed To Service Request");
+//                 }
+//               });
 
-            }
-          });
-        });
-      }
-    });
+//             }
+//           });
+//         });
+//       }
+//     });
 
-  // CartItem.deleteMany({ userId : req.user.username}, function (err) {
-  //               if(err) 
-  //                 console.log(err);
-  //               else
-  //                 console.log("Successful deletion");
-  //              });
+//   // CartItem.deleteMany({ userId : req.user.username}, function (err) {
+//   //               if(err) 
+//   //                 console.log(err);
+//   //               else
+//   //                 console.log("Successful deletion");
+//   //              });
     
 
-    res.redirect("/front-page");
+//     res.redirect("/front-page");
 
-  });
+//   });
 
 
 
