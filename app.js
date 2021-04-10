@@ -14,17 +14,19 @@ const _ = require("lodash");
 
 
 
-<<<<<<< HEAD
-mongoose.connect("mongodb+srv://amigo_blog:Test123@cluster0.dbkp6.mongodb.net/servicesDB", {useNewUrlParser: true, useUnifiedTopology: true});
+
+mongoose.connect("mongodb+srv://amigo_blog:Test123@cluster0.dbkp6.mongodb.net/hack36DB", {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
-=======
-Sndkslsksl
->>>>>>> 707be78e85d89c4d5f3446e5b5bb920a7cb1ac7d
+// mongoose.set("debug",true);
+
+
 
 const itemSchema = {
   name : String,
   price : Number,
-  img : String
+  img : String,
+  mail : String,
+  availableAt : String
 };
 
 
@@ -33,7 +35,21 @@ const cartSchema = {
   productId : String,
   name : String,
   price : Number,
-  img : String
+  img : String,
+  mail : String,
+  availableAt : Number
+};
+
+
+const serviceSchema = {
+  userId : String, 
+  productId : String,
+  name : String,
+  price : Number,
+  img : String,
+  mail : String,
+  availableAt : Number,
+  isComppleted : Boolean
 };
 
 
@@ -95,6 +111,8 @@ passport.use(new GoogleStrategy({
 
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
 const CartItem = new mongoose.model("CartItem", cartSchema);
+const ServiceItem = new mongoose.model("ServiceItem", serviceSchema);
+
 
 const homeStartingContent = "My Cart";
 const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
@@ -215,13 +233,14 @@ app.post("/compose", function(req, res){
   const availableItem = new AvailableItem({
     name: req.body.postTitle,
     price: req.body.postBody,
-    img : req.body.postImage
+    img : req.body.postImage,
+    mail : req.body.postMail,
+    availableAt : new Date().getHours()
   });
 
    availableItem.save();
    res.redirect("/front-page");
  });
-
 
 app.get("/posts/:postId", function(req, res){
   const requestedPostId = req.params.postId;
@@ -246,9 +265,72 @@ app.get("/posts/:postId", function(req, res){
 });
 
 
-app.get("/success", function(req, res){
-   res.send("success");
+////////////////////////////////// services ordered ///////////////////////////////////////////
+app.get("/orders", function(req, res){
+   if(req.isAuthenticated()){
+      ServiceItem.find({userId : req.user.username}, function(err, posts){
+         res.render("orders", {
+            userOrders : posts
+       });
+         // console.log(req.user.username);
+    });
+    }else {
+      res.redirect("/register");
+    }
+
 });
+
+////////////////////////////// successfully orderd ///////////////////////////////////////////
+app.get("/success", function(req, res){
+
+         CartItem.find({userId : req.user.username}, function(err, cartItems){
+          cartItems.forEach(function(item){
+
+         let slot = Math.max(item.availableAt, new Date().getHours());
+
+         if(slot < 10 || slot > 20)
+          slot=10;
+
+             const newItem = new ServiceItem({
+                               userId : req.user.username,
+                               productId : item.productId,
+                               name: item.name,
+                               price: item.price,
+                               img : item.img, 
+                               mail : item.mail,
+                               availableAt : slot
+                          });
+
+              newItem.save();
+
+
+          AvailableItem.findOneAndUpdate({_id : item.productId},{availableAt: slot+1},function (err, docs) {
+             if (err){
+               console.log(err)
+            }else{
+                console.log("Available : ");
+             }
+             console.log("changing");
+           });
+             
+             });
+           });
+
+         
+         CartItem.deleteMany({ userId : req.user.username}, function (err) {
+                if(err) 
+                  console.log(err);
+                else
+                  console.log("Successful deletion");
+               });
+    
+
+           res.redirect("/orders");
+});
+
+
+
+
 /////////////////////////////demo front page ////////////////////////////////////////
 
 app.get("/front-page", function(req, res){
@@ -260,35 +342,38 @@ app.get("/front-page", function(req, res){
 });
 
 
+app.get("/front", function(req, res){
+         res.render("front");
+});
+
+
 ///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
 app.post("/add-to-cart/:postId", function(req, res) {
    const requestedPostId = req.params.postId;
-
-  CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
-  if(!availableItems.length)
-  {
-  AvailableItem.findOne({_id : requestedPostId}, function(err, item){
-     const newItem = new CartItem({
-    userId : req.user.username,
-    productId : requestedPostId,
-    name: item.name,
-    price: item.price,
-    img : item.img
-  });
-     // console.log(req.username);
-
-   newItem.save();
-  });
-}
-});
+     if(req.isAuthenticated()){
+         CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
+           if(!availableItems.length)
+           {
+            AvailableItem.findOne({_id : requestedPostId}, function(err, item){
+             const newItem = new CartItem({
+                               userId : req.user.username,
+                               productId : requestedPostId,
+                               name: item.name,
+                               price: item.price,
+                               img : item.img, 
+                               mail : item.mail,
+                               availableAt : item.availableAt
+                             });
+            newItem.save();
+           });
+        }
+    });
   
-  //  popup.alert({
-  //   content: 'added to cart'
-  // });
-    // toast("A new game has been added to your cart");
-
-   res.redirect("/front-page");
-  
+  res.redirect("/front-page");
+  }
+  else{
+    res.redirect("/login");
+  }
 });
 
 
