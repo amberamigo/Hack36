@@ -1,0 +1,92 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>FACILITIES</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/frontstyle.css">
+    <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <!-- /header -->
+    <section class="sub-header">
+        <nav>
+            <div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">HACK 36</h1></div>
+            <div class="navlink" id="navlink">
+                <i class="fa fa-times-circle" onclick="hidemenu()"></i>
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/about">ABOUT</a></li>
+                    <li><a href="/services">FACILITIES</a></li>
+                    <li><a href="/contact">CONTACT US</a></li>
+                </ul>
+            </div>
+            <i class="fa fa-bars" onclick="showmenu()"></i>
+        </nav>
+       <h1> <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                           <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                           </svg>  Shopping Cart</h1>
+                    
+    </section>
+
+<a href="/logout" class="btn-primary" style="float: right;" >Log Out</a>
+
+ <br><br>
+
+<% var total = 0; %>
+<% posts.forEach(item => { %> 
+ <% total += item.price;  %>
+  <% }) %>
+
+<% if(total > 0){ %>
+   <% total+=50; %>
+ <% } %>
+
+<div class="card">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-5 cart">
+                <div class="row">
+                    <div class="col">
+                        
+                    <div class="col align-self-center text-right text-muted">Items : <%= posts.length %></div>
+                    <hr/>
+                </div>
+             
+            </div>
+            <%  posts.forEach(function(item){ %>
+            <div class="row border-top border-bottom">
+                <div class="row main align-items-center">
+                    <img width="150" height="150" src= <%= item.img %> >
+                    <a class="right" href="/delete/<%=item._id%>">Remove </a>
+                    <div class="col">
+                    <br>
+                        <div class="row"><%=item.name%></div>
+                    </div>
+                    
+                    <div class="col">&#8377 <%=item.price %></div>
+                    <hr/>
+                </div>
+            </div>
+           <% }) %>
+
+            <form>
+                <p>SHIPPING</p> <select>
+                    <option class="text-muted">Standard-Delivery- &#8377 50.00</option>
+                </select>
+                <p>Enter ADDRESS</p> <input id="code" placeholder="Enter your area code">
+            </form>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+              
+                <div class="col text-right">Total : &#8377 <%= total %></div>
+            </div> <a href="/success" class=" align-self-center btn btn-primary">CHECKOUT</a>
+        </div>
+    </div>
+</div>
+
+  
+

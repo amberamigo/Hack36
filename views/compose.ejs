@@ -1,5 +1,33 @@
 
-<%- include("partials/header"); -%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>FACILITIES</title>
+  <link rel="stylesheet" href="/frontstyle.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;1,100&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <!-- /header -->
+  <section class="sub-header">
+    <nav>
+      <div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">HACK 36</h1></div>
+      <div class="navlink" id="navlink">
+        <i class="fa fa-times-circle" onclick="hidemenu()"></i>
+        <ul>
+          <li><a href="/">HOME</a></li>
+          <li><a href="/about">ABOUT</a></li>
+          <li><a href="/services">FACILITIES</a></li>
+          <li><a href="/contact">CONTACT US</a></li>
+        </ul>
+      </div>
+      <i class="fa fa-bars" onclick="showmenu()"></i>
+    </nav>
+    <h2>Add new Service</h2>
+  </section>
 
 
     <h1>Compose</h1>
@@ -25,7 +53,28 @@
 
    
 
+<footer>
+  <h4>ABOUT US</h4>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+  <div class="icons">
+    <i class="fa fa-facebook"></i>
+    <i class="fa fa-twitter"></i>
+    <i class="fa fa-instagram"></i>
+    <i class="fa fa-linkedin"></i>
+  </div>
+</footer>
 
-<%- include("partials/footer"); -%>
+<script>
+var navlink=document.getElementById("navlink");
 
+function showmenu(){
+  navlink.style.right="0";
+} 
 
+function hidemenu(){
+  navlink.style.right="-200px";
+}
+</script>
+
+</body>
+</html>
