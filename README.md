@@ -10,7 +10,7 @@
  ### WishMasters : A Web Application For Connecting Needs & Wishes During Era of Pandemic
   
 ## Table of Contents:
-  * [Demo_Video_Link](https://drive.google.com/file/d/1FavBPnOsA13j1KPVKZrnkZ51g5B_o2Mr/view?usp=sharing)
+  * [Demo_Video_Link](https://drive.google.com/file/d/1vnmHW7vKxpfgIuSl219_1ihnwUqV-9p1/view?usp=sharing)
   * [Presentation_Link](https://drive.google.com/file/d/1MainywrZlgXZiXshS1f0REMiQDOLdZ6Y/view?usp=sharing)
 
 ## Technology Stack:
