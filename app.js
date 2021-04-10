@@ -21,21 +21,20 @@ mongoose.set("useCreateIndex", true);
 // mongoose.set("debug",true);
 
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
 // Sndkslsksl
-=======
->>>>>>> 460f42bd7b394e5348c8036dad1a626e43aba046
+// =======
+// >>>>>>> 460f42bd7b394e5348c8036dad1a626e43aba046
 
 const itemSchema = {
   name : String,
   price : Number,
   img : String,
-<<<<<<< HEAD
   mail : String,
-  availableAt : String
-=======
+  availableAt : String,
+
   availableAt : Date
->>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
+// >>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
 };
 
 
@@ -129,7 +128,6 @@ passport.use(new GoogleStrategy({
 
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
 const CartItem = new mongoose.model("CartItem", cartSchema);
-<<<<<<< HEAD
 const ServiceItem = new mongoose.model("ServiceItem", serviceSchema);
 
 
@@ -138,10 +136,7 @@ const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pelle
 const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 
-
-=======
 const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
->>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
 
 
 app.get("/", function(req, res){
@@ -372,7 +367,6 @@ app.get("/front", function(req, res){
 ///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
 app.post("/add-to-cart/:postId", function(req, res) {
    const requestedPostId = req.params.postId;
-<<<<<<< HEAD
      if(req.isAuthenticated()){
          CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
            if(!availableItems.length)
@@ -397,7 +391,6 @@ app.post("/add-to-cart/:postId", function(req, res) {
   else{
     res.redirect("/login");
   }
-=======
 
   CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
   if(!availableItems.length)
@@ -416,7 +409,6 @@ app.post("/add-to-cart/:postId", function(req, res) {
 }
 });
    res.redirect("/front-page");
->>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
 });
 
 

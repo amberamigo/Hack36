@@ -1,35 +1,90 @@
-<%- include('partials/header') %>
-
-<div class="container mt-5">
-  <h1>Login</h1>
-
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
-
-          <!-- Makes POST request to /login route -->
-          <form action="/login" method="POST">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" class="form-control" name="username">
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" name="password">
-            </div>
-            <button type="submit" class="btn btn-dark">Login</button>
-            <a class="btn btn-dark text-uppercase btn-outline" href="/auth/google" role="button"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Login Using Google</a> 
-          </form>
-
-        </div>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>LOGIN</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;1,100&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+</head>
+<body>
+  <!-- /header -->
+  <section class="sub-header">
+    <nav>
+      <div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">HACK 36</h1></div>
+      <div class="navlink" id="navlink">
+        <i class="fa fa-times-circle" onclick="hidemenu()"></i>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="facilities.html">FACILITIES</a></li>
+          <li><a href="contact.html">CONTACT US</a></li>
+        </ul>
       </div>
+      <i class="fa fa-bars" onclick="showmenu()"></i>
+    </nav>
+    <h2>LOGIN</h2>
+  </section>
+
+<!-- <div class="container mt-5"> -->
+  <!-- <h1>Register</h1> -->
+
+  <!-- div class="row1">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="card1">
+        <div class="card-body"> -->
+
+          <!-- Makes POST request to /register route -->
+
+    <div class="mainreg">
+        <div class="register">
+            <form id="regg" action="/register" method="POST">
+              <label id="labemail">EMAIL : </label>
+              <br>
+              <input id="name" type="email" class="form-control" name="username" placeholder="Enter Your Email">
+              <br><br>
+              <label >PASSWORD :</label>
+              <br>
+              <input id="name" type="password" class="form-control" name="password" placeholder="Enter new Passowrd">
+              <br><br>
+              <button id="submit" type="submit" class="btn btn-dark btn-outline">LOGIN</button>
+              <br>
+        <a class="btn btn-dark text-uppercase btn-outline" href="/auth/google" role="button"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</a> 
+        <br><br>
+        <p>DON'T HAVE AN ACCOUNT?<br> CREATE ONE<span>
+              <a href="register.html" class="btn btn-dark btn-outline">REGISTER</a></span></p>
+            </form>
+    </div>
     </div>
 
- 
-   
 
+
+
+<footer>
+  <h4>ABOUT US</h4>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+  <div class="icons">
+    <i class="fa fa-facebook"></i>
+    <i class="fa fa-twitter"></i>
+    <i class="fa fa-instagram"></i>
+    <i class="fa fa-linkedin"></i>
   </div>
-</div>
+</footer>
 
-<%- include('partials/footer') %>
+<script>
+var navlink=document.getElementById("navlink");
+
+function showmenu(){
+  navlink.style.right="0";
+} 
+
+function hidemenu(){
+  navlink.style.right="-200px";
+}
+</script>
+
+</body>
+</html>

@@ -400,3 +400,37 @@ button:hover{
 	color: white;
 
 }
+
+/* --------------register------------ */
+.mainreg{
+	width: 400px;
+	margin:  100px auto 0px auto;
+	/* background-color: red; */
+}
+.register{
+	/* background-color: rgba(0,0,0,0.7); */
+	width: 100%;
+	font-size: 18px;
+	border-radius: 10px;
+
+}
+
+form#regg{
+	margin: 40px;
+}
+label{
+	font-size: 18px;
+}
+
+input#name{
+	width: 300px;
+	border-radius: 3px;
+	outline: none;
+	padding:  7px;
+
+}
+.register button{
+	width: 150px;
+	padding: 10px 10px;
+}
+
