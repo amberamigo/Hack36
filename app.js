@@ -27,14 +27,7 @@ const itemSchema = {
   price : Number,
   img : String,
   email : String,
-<<<<<<< HEAD
-  availableAt : String
-// =======
-//   availableAt : Date
-// >>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
-=======
   availableAt : Date
->>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
 };
 
 
@@ -45,8 +38,7 @@ const cartSchema = {
   price : Number,
   img : String,
   email : String,
-<<<<<<< HEAD
-  availableAt : Number
+  availableAt : Date
 };
 
 
@@ -57,24 +49,24 @@ const serviceSchema = {
   price : Number,
   img : String,
   mail : String,
-  availableAt : Number,
+  availableAt : Date,
   isCompleted : Boolean
-};
-=======
-};
-
-
-// const serviceSchema = {
-//   userId : String, 
-//   productId : String,
-//   name : String,
-//   price : Number,
-//   img : String,
-//   mail : String,
-//   availableAt : Number,
-//   isComppleted : Boolean
+ };
+// =======
 // };
->>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
+
+
+// // const serviceSchema = {
+// //   userId : String, 
+// //   productId : String,
+// //   name : String,
+// //   price : Number,
+// //   img : String,
+// //   mail : String,
+// //   availableAt : Number,
+// //   isComppleted : Boolean
+// // };
+// >>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
 
 
 const serviceRequestSchema = {
@@ -143,7 +135,7 @@ passport.use(new GoogleStrategy({
 /////////////-----------------------------//////////////
 
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
-<<<<<<< HEAD
+
 const CartItem = new mongoose.model("CartItem", cartSchema);
 
 const ServiceItem = new mongoose.model("ServiceItem", serviceSchema);
@@ -155,22 +147,11 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 
 
-// =======
-const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
-{/*>>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2*/}
-
-
-
 
 /////////////////////////////// front page ///////////////////////
-=======
-const CartItem = mongoose.model("CartItem", cartSchema);
+
 const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
 
-const homeStartingContent = "My Cart";
-const aboutContent = `Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.`;
-const contactContent = `Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.`;
->>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
 
 
 app.get("/", function(req, res){
@@ -204,11 +185,6 @@ app.get("/cart", function(req, res){
 });
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
 ////////////////authentication//////////////////////
 
 
@@ -312,8 +288,9 @@ app.post("/compose", function(req, res){
     name: req.body.postTitle,
     price: req.body.postBody,
     img : req.body.postImage,
-    mail : req.body.postMail,
-    availableAt : new Date().getHours()
+    email : req.body.postMail,
+    availableAt : new Date(),
+
   });
 
    availableItem.save();
@@ -359,52 +336,52 @@ app.get("/orders", function(req, res){
 });
 
 ////////////////////////////// successfully orderd ///////////////////////////////////////////
-// app.get("/success", function(req, res){
+app.get("/success", function(req, res){
 
-//          CartItem.find({userId : req.user.username}, function(err, cartItems){
-//           cartItems.forEach(function(item){
+         CartItem.find({userId : req.user.username}, function(err, cartItems){
+          cartItems.forEach(function(item){
 
-//          let slot = Math.max(item.availableAt, new Date().getHours());
+         let slot = Math.max(item.availableAt, new Date());
 
-//          if(slot < 10 || slot > 20)
-//           slot=10;
+         // if(slot < 10 || slot > 20)
+         //  slot=10;
 
-//              const newItem = new ServiceItem({
-//                                userId : req.user.username,
-//                                productId : item.productId,
-//                                name: item.name,
-//                                price: item.price,
-//                                img : item.img, 
-//                                mail : item.mail,
-//                                availableAt : slot
-//                           });
+             const newItem = new ServiceItem({
+                               userId : req.user.username,
+                               productId : item.productId,
+                               name: item.name,
+                               price: item.price,
+                               img : item.img, 
+                               mail : item.mail,
+                               availableAt : slot
+                          });
 
-//               newItem.save();
+              newItem.save();
 
 
-//           AvailableItem.findOneAndUpdate({_id : item.productId},{availableAt: slot+1},function (err, docs) {
-//              if (err){
-//                console.log(err)
-//             }else{
-//                 console.log("Available : ");
-//              }
-//              console.log("changing");
-//            });
+          AvailableItem.findOneAndUpdate({_id : item.productId},{availableAt : new Date(new Date().getTime()+3600000)},function (err, docs) {
+             if (err){
+               console.log(err)
+            }else{
+                console.log("Available : ");
+             }
+             console.log("changing");
+           });
              
-//              });
-//            });
+             });
+           });
 
          
-//          CartItem.deleteMany({ userId : req.user.username}, function (err) {
-//                 if(err) 
-//                   console.log(err);
-//                 else
-//                   console.log("Successful deletion");
-//                });
+         CartItem.deleteMany({ userId : req.user.username}, function (err) {
+                if(err) 
+                  console.log(err);
+                else
+                  console.log("Successful deletion");
+               });
     
 
-//            res.redirect("/orders");
-// });
+           res.redirect("/orders");
+});
 
 
 
@@ -428,10 +405,7 @@ app.get("/front", function(req, res){
 ///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
 app.post("/add-to-cart/:postId", function(req, res) {
    const requestedPostId = req.params.postId;
-<<<<<<< HEAD
-{/*<<<<<<< HEAD*/}
-=======
->>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
+
      if(req.isAuthenticated()){
          CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
            if(!availableItems.length)
@@ -462,12 +436,9 @@ app.post("/add-to-cart/:postId", function(req, res) {
 
 
 /* Checking out cart by sending post request to "/checkOutCart" */
-<<<<<<< HEAD
-app.get("/checkOutCart", (req, res)=>{
-=======
 
-app.post("/checkOutCart", (request, response)=>{
->>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
+
+app.get("/checkOutCart", (req, res)=>{
 
     CartItem.find({userId : req.user.username}, (err, data)=>{
 
@@ -477,7 +448,7 @@ app.post("/checkOutCart", (request, response)=>{
           
           ServiceRequestItem.findOne({userId : element.userId, productId : element.productId}, (err,data)=>{
             
-            if(err==null && data==null && data.isCompleted){
+            if(err==null && data==null ){
 
               var serviceManEmail = '';
               var serviceManAvailableAt = new Date().getTime();
@@ -490,9 +461,9 @@ app.post("/checkOutCart", (request, response)=>{
                   
                   if(serviceManAvailableAt < new Date().getTime()){
                     serviceManAvailableAt = new Date();
-                    AvailableItem.findOneAndUpdate({_id : productData._id, }, {availableAt : new Date(new Date().getTime()+3600000)},(err,res)=>{
+                    AvailableItem.findOneAndUpdate({_id : productData.productId, }, {availableAt : new Date(new Date().getTime()+3600000)},(err,res)=>{
                       if(err){
-                        //console.log(err);
+                        console.log(err);
                       }
                     });
                   }else{
@@ -512,6 +483,7 @@ app.post("/checkOutCart", (request, response)=>{
               });
               serviceRequest.save();
               // CartItem.findOneAndDelete({})
+              CartItem.findOneAndRemove({userId: element.userId, productId : element.productId}, function(err){console.log(err)});
 
               var transporter = nodeMailer.createTransport({
                 service : 'gmail',
@@ -525,16 +497,15 @@ app.post("/checkOutCart", (request, response)=>{
                 from : 'himanshu.singh18599@gmail.com',
                 to : "himanshu180599@gmail.com",
                 subject : 'Service Booking Confirmation',
-<<<<<<< HEAD
+
                 // text : `Service Booked 
                 //         Time : `+serviceManAvailableAt+`
                 //         Passcode :`+randomPassCode
-                text : "hello"
-=======
+           
+
                 text : `Service Booked 
                         Time : `+serviceManAvailableAt.toLocaleString()+`
                         Passcode :`+randomPassCode
->>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
               }
 
 
