@@ -10,7 +10,8 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const app = express();
-const nodeMailer = require('nodemailer');
+const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
 const _ = require("lodash");
 
 
@@ -19,6 +20,94 @@ const _ = require("lodash");
 mongoose.connect("mongodb+srv://amigo_blog:Test123@cluster0.dbkp6.mongodb.net/hack36DB", {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
 // mongoose.set("debug",true);
+
+
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLEINT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+
+
+////////////////////////// for gmail api ///////////////////////////////
+const oAuth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLEINT_SECRET,
+  REDIRECT_URI
+);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+
+
+///////////////////////////////// mail format ///////////////////////////////
+
+
+async function sendMailUser(userMail) {
+  try {
+    const accessToken = await oAuth2Client.getAccessToken();
+
+    const transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: 'himanshu180599@gmail.com',
+        clientId: CLIENT_ID,
+        clientSecret: CLEINT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    const mailOptions = {
+      from: 'Admin 😁 <himanshu180599@gmail.com>',
+      to: userMail,
+      subject: 'Hello user from Bugs and thugs',
+      text: 'Hello from bugs and thugs email using API',
+      html: '<h1>Hello from gmail email using API</h1>',
+    };
+   
+
+    const result = await transport.sendMail(mailOptions);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+
+
+async function sendMailService(serviceMail) {
+  try {
+    const accessToken = await oAuth2Client.getAccessToken();
+
+    const transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: 'himanshu180599@gmail.com',
+        clientId: CLIENT_ID,
+        clientSecret: CLEINT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    
+    const mailOptions = {
+      from: 'Admin 😁 <himanshu180599@gmail.com>',
+      to: serviceMail,
+      subject: 'Hello service from Bugs and thugs',
+      text: 'Hello from bugs and thugs email using API',
+      html: '<h1>Hello from gmail email using API</h1>',
+    };
+
+    const result = await transport.sendMail(mailOptions);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+///////////////////////////////-----------------------------------///////////////////////////
 
 
 const itemSchema = {
@@ -355,7 +444,16 @@ app.get("/success", function(req, res){
                                availableAt : slot
                           });
 
+
               await newItem.save();
+
+              sendMailUser(req.user.username)
+                 .then((result) => console.log('Email sent...', result))
+                 .catch((error) => console.log(error.message));
+
+              sendMailService(item.mail)
+                 .then((result) => console.log('Email sent...', result))
+                 .catch((error) => console.log(error.message));
 
 
           AvailableItem.findOneAndUpdate({_id : item.productId},{availableAt : new Date(new Date().getTime()+3600000)},function (err, docs) {
