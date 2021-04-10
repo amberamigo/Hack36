@@ -154,17 +154,34 @@ const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSc
 
 
 
-app.get("/", function(req, res){
-   if(req.isAuthenticated()){
-      CartItem.find({userId : req.user.username}, function(err, posts){
-         res.render("front");
-         // console.log(req.user.username);
-    });
-    }else {
-      res.redirect("/register");
-    }
+// app.get("/", function(req, res){
+//    if(req.isAuthenticated()){
+//       CartItem.find({userId : req.user.username}, function(err, posts){
+//          res.render("front");
+//          // console.log(req.user.username);
+//     });
+//     }else {
+//       res.redirect("/register");
+//     }
 
+// });
+
+
+
+///////////////////////////// front page ////////////////////////////////////////
+app.get("/", function(req, res){
+         res.render("front");
 });
+
+
+
+// app.get("/", function(req, res){
+//     AvailableItem.find({}, function(err, availableItems){
+//          res.render("frontPage", {
+//             availableItems: availableItems
+//        });
+//     });
+// });
 
 
 
@@ -298,7 +315,7 @@ app.post("/compose", function(req, res){
   });
 
    availableItem.save();
-   res.redirect("/front-page");
+   res.redirect("/");
  });
 
 
@@ -369,20 +386,8 @@ app.get("/success", function(req, res){
 
 
 
-/////////////////////////////demo front page ////////////////////////////////////////
-
-app.get("/front-page", function(req, res){
-    AvailableItem.find({}, function(err, availableItems){
-         res.render("frontPage", {
-            availableItems: availableItems
-       });
-    });
-});
 
 
-app.get("/front", function(req, res){
-         res.render("front");
-});
 
 
 ///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
