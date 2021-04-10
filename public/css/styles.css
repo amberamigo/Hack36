@@ -237,7 +237,7 @@ input:focus::-webkit-input-placeholder {
 }
 */
 a {
-    color: black
+    color: black;
 }
 
 a:hover {
