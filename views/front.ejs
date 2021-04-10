@@ -13,14 +13,16 @@
 	<!-- /header -->
 	<header>
 		<nav>
-			<div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">HACK 36</h1></div>
+			<div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">WishMasters</h1></div>
 			<div class="navlink" id="navlink">
 				<i class="fa fa-times-circle" onclick="hidemenu()"></i>
 				<ul>
 					<li><a href="/">HOME</a></li>
 					<li><a href="/about">ABOUT</a></li>
-					<li><a href="/services">FACILITIES</a></li>
+					<li><a href="/services">SERVICES</a></li>
 					<li><a href="/contact">CONTACT US</a></li>
+					<li><a href="/cart">CART</a></li>
+					<li><a href="/orders">ORDERS</a></li>
 				</ul>
 			</div>
 			<i class="fa fa-bars" onclick="showmenu()"></i>
@@ -28,11 +30,16 @@
 
 		<main>
 			<section class="texxt">
-				<h1>Welcome to Our Website</h1>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+				<h1>Welcome to WishMasters</h1>
+				<h3>By Mnnitians, For Mnnitians, Near Mnnitians. </h3>
+				<p>We aim to help the utility provider who have lost their job during covid while also helping the customer who cannot afford to go out of their homes to receive the services of the providers.</p>
 
+               <% if(!userLoggedIn){ %>
 				<a href="/login" class="btn-one">LOGIN</a>
 				<a href="/register" class="btn-two">SIGNUP</a>
+			<% }else{ %>
+				<a href="/logout" class="btn-one" >Log Out</a>
+			<% } %>
 
 			</section>
 		</main>
@@ -40,18 +47,19 @@
 
 <section class="about">
 	<h1>Something about this website</h1>
-	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+	<p>WishMasters is the ultimate location to help you getting the right services right at your doorstep.</p>
 	<div class="row">
 		<div class="column">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+			<p>We provide you with 8 of the basic services you need in your life and help them to reach you.</p>
+
 		</div>
 
 		<div class="column">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+		<p>We know that the safety of you and your family is first and so we assure you that all the utility providers work while following the covid guidelines.</p>
 		</div>
 
 		<div class="column">
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+			<p>To make sure that the providers do not lose their job after the lockdown, we help them financialy by employing them and fulfilling your needs.</p>
 		</div>
 	</div>
  
@@ -60,7 +68,8 @@
 
 <footer>
 	<h4>ABOUT US</h4>
-	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+	<p>Safety and excellence are at the core of our beliefs.</p>
+
 	<div class="icons">
 		<i class="fa fa-facebook"></i>
 		<i class="fa fa-twitter"></i>

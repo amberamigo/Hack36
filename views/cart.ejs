@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>FACILITIES</title>
+    <title>SERVICES</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="/frontstyle.css">
     <link rel="stylesheet" href="/css/styles.css">
@@ -16,21 +16,23 @@
     <!-- /header -->
     <section class="sub-header">
         <nav>
-            <div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">HACK 36</h1></div>
+            <div class="logo"><h1 class="animate__animated animate__heartBeat animate__infinite">WishMasters</h1></div>
             <div class="navlink" id="navlink">
                 <i class="fa fa-times-circle" onclick="hidemenu()"></i>
                 <ul>
                     <li><a href="/">HOME</a></li>
                     <li><a href="/about">ABOUT</a></li>
-                    <li><a href="/services">FACILITIES</a></li>
+                    <li><a href="/services">SERVICES</a></li>
                     <li><a href="/contact">CONTACT US</a></li>
+                    <li><a href="/cart">CART</a></li>
+                    <li><a href="/orders">ORDERS</a></li>
                 </ul>
             </div>
             <i class="fa fa-bars" onclick="showmenu()"></i>
         </nav>
        <h1> <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                           </svg>  Shopping Cart</h1>
+                           </svg> Shopping Cart</h1>
                     
     </section>
 
@@ -89,4 +91,30 @@
 </div>
 
   
+
+<footer>
+    <h4>ABOUT US</h4>
+    <p>Safety and excellence are at the core of our beliefs.</p>
+    <div class="icons">
+        <i class="fa fa-facebook"></i>
+        <i class="fa fa-twitter"></i>
+        <i class="fa fa-instagram"></i>
+        <i class="fa fa-linkedin"></i>
+    </div>
+</footer>
+
+<script>
+var navlink=document.getElementById("navlink");
+
+function showmenu(){
+    navlink.style.right="0";
+}   
+
+function hidemenu(){
+    navlink.style.right="-200px";
+}
+</script>
+
+</body>
+</html>
 

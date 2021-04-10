@@ -10,6 +10,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const app = express();
+const fs = require("fs");
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const _ = require("lodash");
@@ -20,6 +21,7 @@ const _ = require("lodash");
 mongoose.connect("mongodb+srv://amigo_blog:Test123@cluster0.dbkp6.mongodb.net/hack36DB", {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
 // mongoose.set("debug",true);
+
 
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -41,7 +43,7 @@ oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 ///////////////////////////////// mail format ///////////////////////////////
 
 
-async function sendMailUser(userMail) {
+async function sendMailUser(userMail, passCode, itemName, TimeSlot) {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
 
@@ -56,13 +58,15 @@ async function sendMailUser(userMail) {
         accessToken: accessToken,
       },
     });
+// '<h1>Hello from Bugs and Thugs</h1> <h3> Your service for {{service}} is scheduled at {{TimeSlot}}. <br> Please give the code {{passCode}} only after service completion.</h3>',
+    // const data = await ejs.renderFile(__dirname + "\\mail.ejs", { service: itemName, slot : TimeSlot, code : passCode });
 
     const mailOptions = {
       from: 'Admin 😁 <himanshu180599@gmail.com>',
       to: userMail,
-      subject: 'Hello user from Bugs and thugs',
-      text: 'Hello from bugs and thugs email using API',
-      html: '<h1>Hello from gmail email using API</h1>',
+      subject: 'Hey, Thanks for using our service',
+      text: 'Hello from bugs and thugs. Your service for ' + 'itemName' + ' is scheduled at ' + TimeSlot + '. Please give the code ' + passCode + 'only after service completion.',
+      html: `<h1>Hello from Bugs and Thugs</h1> <h3> Your service for ` + itemName +  ` is scheduled at ` + TimeSlot + `. <br> Please give the code ` + passCode + ` only after service completion.</h3>`,
     };
    
 
@@ -76,7 +80,7 @@ async function sendMailUser(userMail) {
 
 
 
-async function sendMailService(serviceMail) {
+async function sendMailService(serviceMail, serviceId, TimeSlot) {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
 
@@ -95,10 +99,10 @@ async function sendMailService(serviceMail) {
     
     const mailOptions = {
       from: 'Admin 😁 <himanshu180599@gmail.com>',
-      to: serviceMail,
+      to: 'himanshu.singh18599@gmail.com',
       subject: 'Hello service from Bugs and thugs',
       text: 'Hello from bugs and thugs email using API',
-      html: '<h1>Hello from gmail email using API</h1>',
+      html: `<h1> Hey, There's a request for your service at ` + TimeSlot + ` </h1> <h3>Enter the passCode on the below link, provided by the user only after completion of service </h3> http://localhost:3000/verifyPasscodePage#serviceId=` + serviceId
     };
 
     const result = await transport.sendMail(mailOptions);
@@ -136,9 +140,10 @@ const serviceSchema = {
   name : String,
   price : Number,
   img : String,
-  mail : String,
+  email : String,
   availableAt : Date,
-  isCompleted : Boolean
+  isCompleted : Boolean,
+  passCode : Number
  };
 // =======
 // };
@@ -157,13 +162,13 @@ const serviceSchema = {
 // >>>>>>> 26c4937e8d171d58c26d6a67c78e10e33465f9f9
 
 
-const serviceRequestSchema = {
-  userId : String,
-  productId : String,
-  timeAlloted : Date,
-  isCompleted : Boolean,
-  passcode : Number
-};
+// const serviceRequestSchema = {
+//   userId : String,
+//   productId : String,
+//   timeAlloted : Date,
+//   isCompleted : Boolean,
+//   passcode : Number
+// };
 
 
 app.use(express.static("public"));
@@ -235,30 +240,15 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 
 
-/////////////////////////////// front page ///////////////////////
-
-const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSchema);
-
-
-
-
-// app.get("/", function(req, res){
-//    if(req.isAuthenticated()){
-//       CartItem.find({userId : req.user.username}, function(err, posts){
-//          res.render("front");
-//          // console.log(req.user.username);
-//     });
-//     }else {
-//       res.redirect("/register");
-//     }
-
-// });
-
-
 
 ///////////////////////////// front page ////////////////////////////////////////
 app.get("/", function(req, res){
-         res.render("front");
+         let isLoggedIn = false;
+
+         if(req.isAuthenticated()){
+          isLoggedIn = true;
+         }
+         res.render("front", {userLoggedIn : isLoggedIn});
 });
 
 
@@ -316,6 +306,26 @@ app.get("/home", function(req, res){
     res.redirect("/");
 });
 
+app.get("/verifyPasscodePage", (req,res)=>{
+  res.render("verifyPasscodePage");
+});
+
+app.post("/verify", (req,res)=>{
+  if(req.body.serviceId && req.body.passcode){
+    ServiceItem.findOne({_id : req.body.serviceId}, (err,data)=>{
+      if(!err){
+        if(data.passCode.toString() === req.body.passcode.toString()){
+          ServiceItem.findOneAndUpdate({_id : req.body.serviceId}, { isCompleted : true}, (err,info)=>{
+            if(!err){
+              console.log('Service Request Fulfilled');
+            }
+          })
+        }
+      }
+    });
+  }
+  res.redirect("/");
+});
 
 
 
@@ -427,34 +437,79 @@ app.get("/orders", function(req, res){
 app.get("/success", function(req, res){
 
          CartItem.find({userId : req.user.username}, function(err, cartItems){
-          cartItems.forEach(async function(item){
+          cartItems.forEach(function(item){
 
-         let slot = Math.max(item.availableAt, new Date());
+         // let slot = Math.max(item.availableAt, new Date());
+         let availability = item.availableAt;
+         let availabilityms = new Date(item.availableAt).getTime();
+
+         let slot = new Date();
+         let slotms = new Date().getTime();
+ 
+         let finalTime = slot;
+
+         if(slotms < availabilityms){
+          finalTime = availability;
+         }
+
+         if(finalTime.getHours() < 9 || finalTime.getHours > 20){
+            var currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() + 1);
+            currentDate.setHours(9);
+            console.log(currentDate);
+         }
+
+
+         slot = finalTime;
 
          // if(slot < 10 || slot > 20)
          //  slot=10;
-
+          var randomPassCode = Math.floor(Math.random()*9000)+1000;
              const newItem = new ServiceItem({
                                userId : req.user.username,
                                productId : item.productId,
                                name: item.name,
                                price: item.price,
                                img : item.img, 
-                               mail : item.mail,
-                               availableAt : slot
+                               email : item.email,
+                               isCompleted : false,
+                               availableAt : slot,
+                               passCode : randomPassCode
                           });
 
 
-              await newItem.save();
 
-              sendMailUser(req.user.username)
+              // await newItem.save();
+
+               let serviceItemId = 1;
+
+              newItem.save().then(savedDoc => {
+                serviceItemId = savedDoc._id;
+
+
+                  
+                 sendMailService(item.email, serviceItemId, slot.toLocaleTimeString('en-US'))
                  .then((result) => console.log('Email sent...', result))
                  .catch((error) => console.log(error.message));
 
-              sendMailService(item.mail)
+
+                });
+
+             
+
+              // ServiceItem.find({userId : req.user.username, productId : item.productId}, function(err, item){
+              //    serviceItemId = 
+              // });
+             
+              // console.log(serviceItemId);
+
+                
+
+              sendMailUser(req.user.username, randomPassCode, item.name, slot.toLocaleTimeString('en-US'))
                  .then((result) => console.log('Email sent...', result))
                  .catch((error) => console.log(error.message));
 
+             
 
           AvailableItem.findOneAndUpdate({_id : item.productId},{availableAt : new Date(new Date().getTime()+3600000)},function (err, docs) {
              if (err){
@@ -502,10 +557,11 @@ app.post("/add-to-cart/:postId", function(req, res) {
                                           name: item.name,
                                           price: item.price,
                                           img : item.img, 
-                                          mail : item.mail,
+                                          email : item.email,
                                           availableAt : item.availableAt
                                           });
             await newItem.save();
+            // window.alert("item added");
            });
         }
     });
@@ -516,9 +572,6 @@ app.post("/add-to-cart/:postId", function(req, res) {
     res.redirect("/login");
   }
 });
-
-
-
 
 
 // app.get("/checkOutCart", (req, res)=>{

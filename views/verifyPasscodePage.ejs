@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<title>SERVICES</title>
+	<title>Verify Passcode | Confirm Service</title>
 	<link rel="stylesheet" href="/frontstyle.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;1,100&display=swap" rel="stylesheet">
@@ -19,47 +19,29 @@
 				<ul>
 					<li><a href="/">HOME</a></li>
 					<li><a href="/about">ABOUT</a></li>
-					<li><a href="/services">SERVICES</a></li>
+					<li><a href="/services">FACILITIES</a></li>
 					<li><a href="/contact">CONTACT US</a></li>
-					<li><a href="/cart">CART</a></li>
-					<li><a href="/orders">ORDERS</a></li>
 				</ul>
 			</div>
 			<i class="fa fa-bars" onclick="showmenu()"></i>
 		</nav>
-		<h2>SERVICES</h2>
+		<h2>Verify Service Completion</h2>
 	</section>
 
-<div class="cards">
-	<%  availableItems.forEach(function(item){ %>
-	<div class="card">
-		<div class="image">
-			<img src= <%= item.img %>>
+<section class="about">
+		<div class="row" style="position: relative;">
+			<form id="passcodeForm" action="/verify" method="POST">
+				<label>Passcode :</label>
+				<input id="passcode" name="passcode" type="number" min="1000" max="9999" placeholder="Enter 4-Digit Passcode" required>
+				<input id="serviceId" name="serviceId" type="text" hidden>
+                <button id="submit" type="submit" class="btn btn-dark btn-outline">Verify</button>
+            </form>
 		</div>
-		<div class="title">
-			<h1><%=item.name%></h1>
-		</div>
-		<div class="des">
-			<p>&#8377 <%=item.price %></p>
-		<form action="/add-to-cart/<%=item._id%>" method="post">
-              <button type="submit" name="button">Add to cart</button>
-        </form>
-		</div>
-	</div>
-	 <% }) %>
-
-	
-
-
-	
-</div>
-
-
+</section>
 
 <footer>
 	<h4>ABOUT US</h4>
-	<p>Wishlist is the ultimate location to help you getting the right services right at your doorstep.</p>
-	<div class="icons">
+	<p>Wishlist is the ultimate location to help you getting the right services right at your doorstep.</p>	<div class="icons">
 		<i class="fa fa-facebook"></i>
 		<i class="fa fa-twitter"></i>
 		<i class="fa fa-instagram"></i>
@@ -68,15 +50,22 @@
 </footer>
 
 <script>
-var navlink=document.getElementById("navlink");
 
-function showmenu(){
-	navlink.style.right="0";
-}	
+	var hashParams = window.location.hash.substr(1).split('&'); 
+	for(var i = 0; i < hashParams.length; i++){
+		var p = hashParams[i].split('=');
+		document.getElementById(p[0]).value = decodeURIComponent(p[1]);
+	}
 
-function hidemenu(){
-	navlink.style.right="-200px";
-}
+	var navlink=document.getElementById("navlink");
+
+	function showmenu(){
+		navlink.style.right="0";
+	}	
+
+	function hidemenu(){
+		navlink.style.right="-200px";
+	}
 </script>
 
 </body>
