@@ -21,20 +21,28 @@ mongoose.set("useCreateIndex", true);
 // mongoose.set("debug",true);
 
 
+<<<<<<< HEAD
 // <<<<<<< HEAD
 // Sndkslsksl
 // =======
 // >>>>>>> 460f42bd7b394e5348c8036dad1a626e43aba046
 
+=======
+>>>>>>> e0c34e18f45a4d59a31d0c81ff002bfef96032e7
 const itemSchema = {
   name : String,
   price : Number,
   img : String,
+<<<<<<< HEAD
   mail : String,
   availableAt : String,
 
   availableAt : Date
 // >>>>>>> 2dcd33683d1156c4ef395be129a0a1723252f9f2
+=======
+  email : String,
+  availableAt : Date
+>>>>>>> e0c34e18f45a4d59a31d0c81ff002bfef96032e7
 };
 
 
@@ -144,6 +152,10 @@ passport.use(new GoogleStrategy({
 const AvailableItem = mongoose.model("AvailableItem", itemSchema);
 
 const CartItem = new mongoose.model("CartItem", cartSchema);
+<<<<<<< HEAD
+=======
+
+>>>>>>> e0c34e18f45a4d59a31d0c81ff002bfef96032e7
 const ServiceItem = new mongoose.model("ServiceItem", serviceSchema);
 
 
@@ -152,7 +164,10 @@ const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pelle
 const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e0c34e18f45a4d59a31d0c81ff002bfef96032e7
 
 /////////////////////////////// front page ///////////////////////
 
@@ -160,17 +175,35 @@ const ServiceRequestItem = mongoose.model("ServiceRequestItem", serviceRequestSc
 
 
 
-app.get("/", function(req, res){
-   if(req.isAuthenticated()){
-      CartItem.find({userId : req.user.username}, function(err, posts){
-         res.render("front");
-         // console.log(req.user.username);
-    });
-    }else {
-      res.redirect("/register");
-    }
 
+// app.get("/", function(req, res){
+//    if(req.isAuthenticated()){
+//       CartItem.find({userId : req.user.username}, function(err, posts){
+//          res.render("front");
+//          // console.log(req.user.username);
+//     });
+//     }else {
+//       res.redirect("/register");
+//     }
+
+// });
+
+
+
+///////////////////////////// front page ////////////////////////////////////////
+app.get("/", function(req, res){
+         res.render("front");
 });
+
+
+
+// app.get("/", function(req, res){
+//     AvailableItem.find({}, function(err, availableItems){
+//          res.render("frontPage", {
+//             availableItems: availableItems
+//        });
+//     });
+// });
 
 
 
@@ -323,7 +356,7 @@ app.post("/compose", function(req, res){
   });
 
    availableItem.save();
-   res.redirect("/front-page");
+   res.redirect("/");
  });
 
 
@@ -394,25 +427,17 @@ app.get("/success", function(req, res){
 
 
 
-/////////////////////////////demo front page ////////////////////////////////////////
-
-app.get("/front-page", function(req, res){
-    AvailableItem.find({}, function(err, availableItems){
-         res.render("frontPage", {
-            availableItems: availableItems
-       });
-    });
-});
 
 
-app.get("/front", function(req, res){
-         res.render("front");
-});
 
 
 ///////////////////////////////////////////////////to add item item to cart, send a post req with route "/add-item/postId" ////////// 
 app.post("/add-to-cart/:postId", function(req, res) {
    const requestedPostId = req.params.postId;
+<<<<<<< HEAD
+=======
+
+>>>>>>> e0c34e18f45a4d59a31d0c81ff002bfef96032e7
      if(req.isAuthenticated()){
          CartItem.find({productId : requestedPostId, userId : req.user.username}, function(err, availableItems){
            if(!availableItems.length)
@@ -438,11 +463,13 @@ app.post("/add-to-cart/:postId", function(req, res) {
     res.redirect("/login");
   }
 });
+<<<<<<< HEAD
+
+=======
+>>>>>>> e0c34e18f45a4d59a31d0c81ff002bfef96032e7
 
 
 
-
-/* Checking out cart by sending post request to "/checkOutCart" */
 
 
 // app.get("/checkOutCart", (req, res)=>{
