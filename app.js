@@ -52,7 +52,7 @@ async function sendMailUser(userMail, passCode, itemName, TimeSlot) {
       auth: {
         type: 'OAuth2',
         user: 'himanshu180599@gmail.com',
-        clientId: CLIENT_ID,
+        clientID: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
         accessToken: accessToken,
@@ -89,7 +89,7 @@ async function sendMailService(serviceMail, serviceId, TimeSlot) {
       auth: {
         type: 'OAuth2',
         user: 'himanshu180599@gmail.com',
-        clientId: CLIENT_ID,
+        clientID: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
         accessToken: accessToken,
