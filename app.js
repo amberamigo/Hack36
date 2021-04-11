@@ -102,7 +102,7 @@ async function sendMailService(serviceMail, serviceId, TimeSlot) {
       to: 'himanshu.singh18599@gmail.com',
       subject: 'Hello service from Bugs and thugs',
       text: 'Hello from bugs and thugs email using API',
-      html: `<h1> Hey, There's a request for your service at ` + TimeSlot + ` </h1> <h3>Enter the passCode on the below link, provided by the user only after completion of service </h3> https://wishmasters.herokuapp.com//verifyPasscodePage#serviceId=` + serviceId
+      html: `<h1> Hey, There's a request for your service at ` + TimeSlot + ` </h1> <h3>Enter the passCode on the below link, provided by the user only after completion of service </h3> https://wishmasters.herokuapp.com/verifyPasscodePage#serviceId=` + serviceId
     };
 
     const result = await transport.sendMail(mailOptions);
