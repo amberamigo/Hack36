@@ -25,7 +25,7 @@ mongoose.set("useCreateIndex", true);
 
 
 const CLIENT_ID = process.env.CLIENT_ID;
-const CLEINT_SECRET = process.env.CLIENT_SECRET;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
@@ -33,7 +33,7 @@ const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 ////////////////////////// for gmail api ///////////////////////////////
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
-  CLEINT_SECRET,
+  CLIENT_SECRET,
   REDIRECT_URI
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
@@ -53,7 +53,7 @@ async function sendMailUser(userMail, passCode, itemName, TimeSlot) {
         type: 'OAuth2',
         user: 'himanshu180599@gmail.com',
         clientId: CLIENT_ID,
-        clientSecret: CLEINT_SECRET,
+        clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
         accessToken: accessToken,
       },
@@ -90,7 +90,7 @@ async function sendMailService(serviceMail, serviceId, TimeSlot) {
         type: 'OAuth2',
         user: 'himanshu180599@gmail.com',
         clientId: CLIENT_ID,
-        clientSecret: CLEINT_SECRET,
+        clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
         accessToken: accessToken,
       },
