@@ -58,8 +58,6 @@ async function sendMailUser(userMail, passCode, itemName, TimeSlot) {
         accessToken: accessToken,
       },
     });
-// '<h1>Hello from Bugs and Thugs</h1> <h3> Your service for {{service}} is scheduled at {{TimeSlot}}. <br> Please give the code {{passCode}} only after service completion.</h3>',
-    // const data = await ejs.renderFile(__dirname + "\\mail.ejs", { service: itemName, slot : TimeSlot, code : passCode });
 
     const mailOptions = {
       from: 'Admin 😁 <himanshu180599@gmail.com>',
@@ -99,7 +97,7 @@ async function sendMailService(serviceMail, serviceId, TimeSlot) {
     
     const mailOptions = {
       from: 'Admin 😁 <himanshu180599@gmail.com>',
-      to: 'himanshu.singh18599@gmail.com',
+      to: 'himanshu.singh18599@gmai',
       subject: 'Hello service from Bugs and thugs',
       text: 'Hello from bugs and thugs email using API',
       html: `<h1> Hey, There's a request for your service at ` + TimeSlot + ` </h1> <h3>Enter the passCode on the below link, provided by the user only after completion of service </h3> https://wishmasters.herokuapp.com/verifyPasscodePage#serviceId=` + serviceId
