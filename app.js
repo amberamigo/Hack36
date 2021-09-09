@@ -96,7 +96,7 @@ async function sendMailService(serviceMail, serviceId, TimeSlot) {
 
     
     const mailOptions = {
-      from: 'Bugs and Thugs 😁 <harshitgargbxn@gmail.com>',
+      from: 'Bugs and Thugs 😁 <himanshu180599@gmail.com>',
       to: 'himanshu.singh18599@gmail.com',
       subject: 'Hello service from Bugs and thugs',
       text: 'Hello from bugs and thugs email using API',
