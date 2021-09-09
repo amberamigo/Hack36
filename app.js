@@ -51,7 +51,7 @@ async function sendMailUser(userMail, passCode, itemName, TimeSlot) {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: 'harshitgargbxn@gmail.com',
+        user: 'himanshu180599@gmail.com',
         clientId: CLIENT_ID,
         clientSecret: CLEINT_SECRET,
         refreshToken: REFRESH_TOKEN,
@@ -60,7 +60,7 @@ async function sendMailUser(userMail, passCode, itemName, TimeSlot) {
     });
 
     const mailOptions = {
-      from: 'Bugs and Thugs 😁 <harshitgargbxn@gmail.com>',
+      from: 'Bugs and Thugs 😁 <himanshu180599@gmail.com>',
       to: userMail,
       subject: 'Hey, Thanks for using our service',
       text: 'Hello from bugs and thugs. Your service for ' + 'itemName' + ' is scheduled at ' + TimeSlot + '. Please give the code ' + passCode + 'only after service completion.',
@@ -86,7 +86,7 @@ async function sendMailService(serviceMail, serviceId, TimeSlot) {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: 'harshitgargbxn@gmail.com',
+        user: 'himanshu180599@gmail.com',
         clientId: CLIENT_ID,
         clientSecret: CLEINT_SECRET,
         refreshToken: REFRESH_TOKEN,
@@ -97,7 +97,7 @@ async function sendMailService(serviceMail, serviceId, TimeSlot) {
     
     const mailOptions = {
       from: 'Bugs and Thugs 😁 <harshitgargbxn@gmail.com>',
-      to: 'harshitgargbxn@gmail.com',
+      to: 'himanshu.singh18599@gmail.com',
       subject: 'Hello service from Bugs and thugs',
       text: 'Hello from bugs and thugs email using API',
       html: `<h1> Hey, There's a request for your service at ` + TimeSlot + ` </h1> <h3>Enter the passCode on the below link, provided by the user only after completion of service </h3> https://wishmasters.herokuapp.com/verifyPasscodePage#serviceId=` + serviceId
