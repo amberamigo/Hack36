@@ -20,7 +20,7 @@ const _ = require("lodash");
 
 mongoose.connect("mongodb+srv://amigo_blog:Test123@cluster0.dbkp6.mongodb.net/hack36DB", {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
-// mongoose.set("debug",true);
+
 
 
 
